@@ -1,6 +1,5 @@
 # Shipping domain tools module
 import uuid
-from typing import Union
 
 from customer_support_agent.schemas import (
     RateCalculationInput,
@@ -8,7 +7,6 @@ from customer_support_agent.schemas import (
     ReturnRequestInput,
     ReturnRequestOutput,
     ToolErrorResult,
-    TrackingLookupInput,
     TrackingLookupOutput,
 )
 
@@ -18,7 +16,7 @@ def calculate_shipping_rates(
     destination_zip: str,
     weight_kg: float,
     service_type: str = "standard",
-) -> Union[RateCalculationOutput, ToolErrorResult]:
+) -> RateCalculationOutput | ToolErrorResult:
     """Calculates shipping rates and delivery estimates only when origin ZIP, destination ZIP, and positive weight are provided.
 
     IMPORTANT: Do NOT call this tool for greetings (e.g. 'hello'), capability inquiries, or when postal codes and weight are missing from the customer's query.
@@ -43,7 +41,7 @@ def calculate_shipping_rates(
     except Exception as exc:
         return ToolErrorResult(
             is_error=True,
-            error_message=f"Validation failed for rate calculation: {str(exc)}",
+            error_message=f"Validation failed for rate calculation: {exc!s}",
             recovery_instructions="Please ask the customer to provide their origin ZIP, destination ZIP, and package weight (in kg). Do not retry without these values.",
         )
 
@@ -90,7 +88,7 @@ MOCK_TRACKING_DATABASE = {
 
 def track_package_by_number(
     tracking_number: str,
-) -> Union[TrackingLookupOutput, ToolErrorResult]:
+) -> TrackingLookupOutput | ToolErrorResult:
     """Retrieves current shipment status, real-time location, and delivery estimates for a specific tracking number.
 
     IMPORTANT: Do NOT call this tool for greetings or when no tracking number is provided.
@@ -140,7 +138,7 @@ def submit_return_request(
     reason: str,
     estimated_value_usd: float = 0.0,
     requires_pickup: bool = False,
-) -> Union[ReturnRequestOutput, ToolErrorResult]:
+) -> ReturnRequestOutput | ToolErrorResult:
     """Creates a new return authorization request and generates return shipping documentation.
 
     IMPORTANT: Do NOT call this tool for greetings or general questions. Only call when a customer explicitly requests a return.
@@ -165,7 +163,7 @@ def submit_return_request(
     except Exception as exc:
         return ToolErrorResult(
             is_error=True,
-            error_message=f"Validation failed for return request: {str(exc)}",
+            error_message=f"Validation failed for return request: {exc!s}",
             recovery_instructions="Please verify tracking number and return value are provided with valid non-negative numbers.",
         )
 

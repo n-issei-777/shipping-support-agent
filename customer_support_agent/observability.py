@@ -4,7 +4,8 @@ import datetime
 import json
 import logging
 import uuid
-from typing import Any, Callable, Generator
+from collections.abc import Callable, Generator
+from typing import Any
 
 from opentelemetry import trace
 from opentelemetry.sdk.trace import TracerProvider
@@ -39,7 +40,7 @@ class StructuredJsonLogger:
         metadata: dict[str, Any] | None = None,
     ) -> str:
         # Format log entry into structured JSON string
-        now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        now = datetime.datetime.now(datetime.UTC).isoformat()
         clean_meta = {}
         if metadata:
             for k, v in metadata.items():
@@ -81,13 +82,13 @@ class TraceManager:
     def get_current_trace_id(cls) -> str:
         span = trace.get_current_span()
         ctx = span.get_span_context()
-        if ctx and ctx.is_valid:
+        if ctx.is_valid:
             return format(ctx.trace_id, "032x")
         return uuid.uuid4().hex
 
     @classmethod
     @contextlib.contextmanager
-    def start_span(cls, name: str, attributes: dict[str, Any] | None = None) -> Generator[trace.Span, None, None]:
+    def start_span(cls, name: str, attributes: dict[str, Any] | None = None) -> Generator[trace.Span]:
         with _tracer.start_as_current_span(name) as span:
             if attributes:
                 for k, v in attributes.items():
@@ -113,7 +114,7 @@ def capture_intent_and_outcome(
     action_name: str,
     intent_details: dict[str, Any],
     log_callback: Callable[[dict], None] | None = None,
-) -> Generator[ActionRecorder, None, None]:
+) -> Generator[ActionRecorder]:
     # Capture intended action (Intent) before execution and resulting output (Outcome) after
     logger = StructuredJsonLogger()
     callback = log_callback or (lambda entry: logger.info(event="action_lifecycle", metadata=entry))

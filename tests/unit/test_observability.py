@@ -34,6 +34,7 @@ class TestTraceManager:
     def test_start_span_creates_trace_context(self):
         # Verify span creation and trace context generation
         tracer = TraceManager.get_tracer()
+        assert tracer is not None
         with TraceManager.start_span("test_node_span") as span:
             assert span is not None
             trace_id = TraceManager.get_current_trace_id()

@@ -8,3 +8,6 @@ htmlcov/
 *.log
 *.db
 .adk/
+*.tfstate
+*.tfstate.*
+*.tfvars

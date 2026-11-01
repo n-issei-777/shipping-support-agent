@@ -1,6 +1,6 @@
 # Guardrails and PII scrubbing module
 import re
-from typing import Tuple
+from typing import ClassVar
 
 
 class PIIScrubber:
@@ -31,7 +31,7 @@ class PIIScrubber:
 class SafetyGuardrail:
     # Input security and prompt injection guardrail
 
-    INJECTION_PATTERNS = [
+    INJECTION_PATTERNS: ClassVar[list[str]] = [
         r"ignore\s+all\s+(previous|prior)\s+instructions",
         r"ignore\s+above\s+instructions",
         r"output\s+your\s+system\s+prompt",
@@ -41,7 +41,7 @@ class SafetyGuardrail:
     ]
 
     @classmethod
-    def validate_input(cls, user_text: str) -> Tuple[bool, str | None]:
+    def validate_input(cls, user_text: str) -> tuple[bool, str | None]:
         # Validate user input for prompt injection attempts
         if not user_text:
             return True, None

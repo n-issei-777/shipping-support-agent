@@ -1,10 +1,10 @@
 # Data schema definitions
-from enum import Enum
-from typing import Any
+from enum import StrEnum
+
 from pydantic import BaseModel, Field
 
 
-class QueryCategory(str, Enum):
+class QueryCategory(StrEnum):
     # Customer query category
     RATES = "rates"
     TRACKING = "tracking"

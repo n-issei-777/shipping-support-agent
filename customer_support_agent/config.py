@@ -1,5 +1,6 @@
 # Configuration and secret management module
 import os
+
 from pydantic import BaseModel, Field
 
 

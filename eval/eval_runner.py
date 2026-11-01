@@ -1,16 +1,15 @@
 # Comprehensive agent evaluation runner module
-import asyncio
 import json
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 # Add project root to sys.path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from customer_support_agent.classifier import determine_classification
-from customer_support_agent.guardrails import PIIScrubber, SafetyGuardrail
+from customer_support_agent.guardrails import SafetyGuardrail
 from customer_support_agent.hitl import check_and_request_approval
 from customer_support_agent.tools import (
     calculate_shipping_rates,
@@ -19,14 +18,14 @@ from customer_support_agent.tools import (
 )
 
 
-def evaluate_dataset(dataset_path: str = "eval/dataset.jsonl") -> Dict[str, Any]:
+def evaluate_dataset(dataset_path: str = "eval/dataset.jsonl") -> dict[str, Any]:
     # Run evaluation across golden dataset cases
     path = Path(dataset_path)
     if not path.exists():
         raise FileNotFoundError(f"Evaluation dataset not found at {dataset_path}")
 
-    cases: List[Dict[str, Any]] = []
-    with open(path, "r", encoding="utf-8") as f:
+    cases: list[dict[str, Any]] = []
+    with open(path, encoding="utf-8") as f:
         for line in f:
             if line.strip():
                 cases.append(json.loads(line))
@@ -42,11 +41,10 @@ def evaluate_dataset(dataset_path: str = "eval/dataset.jsonl") -> Dict[str, Any]
         expected_route = case["expected_route"]
         expected_category = case["expected_category"]
         expected_tool = case.get("expected_tool")
-        is_adversarial = case.get("is_adversarial", False)
         requires_hitl = case.get("requires_hitl", False)
 
         # 1. Guardrail evaluation
-        is_safe, guard_reason = SafetyGuardrail.validate_input(query)
+        is_safe, _guard_reason = SafetyGuardrail.validate_input(query)
 
         # 2. Classification & Routing evaluation
         classification = determine_classification(query)
@@ -109,7 +107,7 @@ def evaluate_dataset(dataset_path: str = "eval/dataset.jsonl") -> Dict[str, Any]
     return summary
 
 
-def run_evaluation(dataset_path: str = "eval/dataset.jsonl") -> Dict[str, Any]:
+def run_evaluation(dataset_path: str = "eval/dataset.jsonl") -> dict[str, Any]:
     # Entrypoint function for testing and CLI evaluation
     summary = evaluate_dataset(dataset_path)
     return {

@@ -22,6 +22,7 @@ class TestWorkflowGraphStructure:
 
     def test_workflow_has_edges(self):
         # Verify presence of workflow graph edges
+        assert root_agent.graph is not None
         assert len(root_agent.graph.edges) >= 3
 
 
@@ -65,6 +66,7 @@ class TestWorkflowExecution:
             app_name="customer_support_app", user_id="test_user"
         )
 
+        assert root_agent.graph is not None
         faq_node = next(
             n for n in root_agent.graph.nodes if n.name == "shipping_faq_agent"
         )
