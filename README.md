@@ -1,5 +1,7 @@
 # Customer Support Agent (Shipping Company)
 
+[![CI](https://github.com/n-issei-777/shipping-support-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/n-issei-777/shipping-support-agent/actions/workflows/ci.yml)
+
 This project is a customer support agent built for a shipping and logistics company using **Google ADK 2.0 (Agent Development Kit)** Graph Workflows.
 
 > **Reference:** This agent project is based on the Google Developers Codelab:  
@@ -39,7 +41,7 @@ The Customer Support Agent acts as an automated representative for a parcel ship
 ## Project Structure
 
 ```
-test_ship/
+shipping-support-agent/
 ├── doc/
 │   └── design.md                 # System architecture design & Mermaid diagrams
 ├── customer_support_agent/
@@ -138,3 +140,10 @@ Start the interactive CLI session to chat with the agent:
 ```bash
 uv run python3.13 run_agent.py
 ```
+
+---
+
+## Disclaimer
+
+This repository is a personal demonstration project for educational purposes and is not an officially supported Google product.
+

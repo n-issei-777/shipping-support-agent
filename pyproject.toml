@@ -12,5 +12,22 @@ dependencies = [
     "pytest-asyncio>=1.4.0",
 ]
 
+[dependency-groups]
+dev = [
+    "ruff>=0.9.0",
+    "ty>=0.0.1a0",
+]
+
 [[tool.uv.index]]
 url = "https://pypi.org/simple"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "RUF"]
+ignore = ["E501"]
+
+[tool.ty.src]
+exclude = [".venv/**"]

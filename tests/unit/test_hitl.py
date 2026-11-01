@@ -1,5 +1,4 @@
 # Human-in-the-Loop (HITL) authorization gate unit tests
-import pytest
 from google.adk.events.request_input import RequestInput
 
 from customer_support_agent.hitl import check_and_request_approval, process_approval_response

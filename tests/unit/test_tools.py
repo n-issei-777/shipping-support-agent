@@ -1,5 +1,4 @@
 # Shipping domain tools unit tests
-import inspect
 
 from customer_support_agent.schemas import (
     RateCalculationOutput,

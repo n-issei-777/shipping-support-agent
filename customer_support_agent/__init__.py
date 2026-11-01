@@ -1,5 +1,6 @@
 # Package initialization
 import os
+
 from dotenv import load_dotenv
 
 # Load .env configuration
@@ -9,6 +10,6 @@ load_dotenv()
 if "GOOGLE_GENAI_USE_VERTEXAI" not in os.environ:
     os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "True"
 
-from customer_support_agent.agent import root_agent
+from customer_support_agent.agent import root_agent  # noqa: E402
 
 __all__ = ["root_agent"]

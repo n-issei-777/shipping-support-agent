@@ -3,16 +3,11 @@ import pytest
 from pydantic import ValidationError
 
 from customer_support_agent.schemas import (
-    ClassificationResult,
-    QueryCategory,
     RateCalculationInput,
     RateCalculationOutput,
     ReturnRequestInput,
-    ReturnRequestOutput,
-    ShippingFaqResponse,
     ToolErrorResult,
     TrackingLookupInput,
-    TrackingLookupOutput,
 )
 
 

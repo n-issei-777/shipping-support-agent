@@ -2,7 +2,7 @@
 import asyncio
 import json
 import sqlite3
-from typing import Any, List
+from typing import Any
 
 from google.genai import types
 
@@ -10,9 +10,9 @@ from customer_support_agent.guardrails import PIIScrubber
 
 
 def compact_conversation_history(
-    messages: List[types.Content],
+    messages: list[types.Content],
     max_turns: int = 10,
-) -> List[types.Content]:
+) -> list[types.Content]:
     # Sliding-window conversation compaction to prevent context bloat
     if len(messages) <= max_turns:
         return messages
@@ -30,7 +30,7 @@ def compact_conversation_history(
         parts=[types.Part.from_text(text=summary_text)],
     )
 
-    return [summary_content] + recent_messages
+    return [summary_content, *recent_messages]
 
 
 class PersistentSessionStore:

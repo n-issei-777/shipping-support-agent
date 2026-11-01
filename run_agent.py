@@ -1,6 +1,5 @@
 # Interactive console runner script
 import asyncio
-import sys
 
 from google.adk.apps import App
 from google.adk.runners import InMemoryRunner
